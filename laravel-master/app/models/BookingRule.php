@@ -1,0 +1,1 @@
+<?phpclass BookingRule extends Eloquent {	protected $table="booking_rules";	public $timestamps=false;}

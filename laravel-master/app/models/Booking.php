@@ -1,0 +1,1 @@
+<?phpuse LaravelBook\Ardent\Ardent;class Booking extends Ardent{	public static $rules=array(		"title"		=>"required",		"user"		=>"required",		"from"		=>"required",		"to"		=>"required",	);		public function getDates(){		$res=parent::getDates();		array_push($res,"from","to");		return $res;	}	/*Booking::creating(function($booking){		if($this->	});*/}
