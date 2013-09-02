@@ -11,11 +11,6 @@
 |
 */
 
-//global settings
-View::share("BOOKING_ALLOWED_DAYS",30);
-
-
-//Routes
 Route::controller("book","BookingController");
 
 Route::resource("foo","fooController");

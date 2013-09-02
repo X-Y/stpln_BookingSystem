@@ -180,5 +180,14 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
 	),
+	
+	/*
+	*
+	*	Global variables
+	*
+	*/
+	//from today, within BOOKING_ALLOWED_DAYS, can people book time.
+	"BOOKING_ALLOWED_DAYS"=>30,
+
 
 );
