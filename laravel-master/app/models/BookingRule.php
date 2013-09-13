@@ -1,1 +1,1 @@
-<?phpclass BookingRule extends Eloquent {	protected $table="booking_rules";	public $timestamps=false;}
+<?phpclass BookingRule extends Eloquent {	protected $table="booking_rules";	public $timestamps=false;		public function scopeActive($query){		return $query->where("active","=",true);	}}

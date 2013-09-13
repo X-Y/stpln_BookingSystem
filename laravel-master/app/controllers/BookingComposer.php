@@ -1,0 +1,1 @@
+<?phpclass BookingComposer{	public function compose($view){		$scope=Input::get("scope");		if($scope=="active" || $scope===Null){			$scope=1;		}else if($scope=="all"){			$scope=3;		}		$bookings=Booking::getUserBookings(12334,$scope);		$view->with("userbookings",$bookings);	}}

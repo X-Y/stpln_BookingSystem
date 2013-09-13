@@ -78,3 +78,33 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+
+require("controllers/BookingController.php");
+Route::filter('earlyBar', function(){
+	$dt=BookingForm::calDates(Input::all());
+	$BNET=Config::get("app.BOOKING_NO_EARLIER_THAN");
+	$book_starting=(new Datetime())->add(new DateInterval("PT".$BNET."H"));
+	if($book_starting>$dt["from"] && $dt["from"]>(new Datetime()))
+		return BookingController::redirectHome("error","You can't make/edit/delete bookings happening within ".$BNET." hours.");
+	
+});
+
+Route::filter('owner',function(){
+	$id=Input::get("id");
+	$uid=12334;
+	$userRole="";
+	$booking=Booking::find($id);
+	if($userRole!="sueruser"){
+		if($booking->user!=$uid){
+			return "You don't have permission to do so";
+		}
+	}
+});
+Route::filter('superuser',function(){
+	$uid=12334;
+	$userRole="";
+	if($userRole!="sueruser"){
+		return "You don't have permission to do so";
+	}
+});

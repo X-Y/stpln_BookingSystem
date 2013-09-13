@@ -39,7 +39,7 @@ return array(
 	|
 	*/
 
-	'timezone' => 'UTC',
+	'timezone' => 'Europe/Stockholm',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -186,8 +186,10 @@ return array(
 	*	Global variables
 	*
 	*/
-	//from today, within BOOKING_ALLOWED_DAYS, can people book time.
+	//from today, within BOOKING_ALLOWED_DAYS, people can book time.
 	"BOOKING_ALLOWED_DAYS"=>30,
-
+	
+	//from now, within BOOKING_NO_EARLIER_THAN, people cannot book time.
+	"BOOKING_NO_EARLIER_THAN"=>3,
 
 );

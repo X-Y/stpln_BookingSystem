@@ -11,32 +11,25 @@
 |
 */
 
-Route::controller("book","BookingController");
+Route::controller("/","BookingController");
+View::composer("index","BookingComposer");
 
-Route::resource("foo","fooController");
+//Route::resource("foo","fooController");
 
-Route::get('/', 'HomeController@showWelcome');
+
+//Route::get('/', 'HomeController@showWelcome');
 
 Route::get('oauthtest/{provider?}','OauthTest@action_session');
 
-Route::get('users', function()
-{
-	$users=User::all();
-	//return $users;
-	return View::make('hw')->with("users",$users);
-});
 
-Route::get('updateUsers',function()
-{
-	$users=User;
-	return "retouch success!";
-});
 
 Route::get('phpversion',function(){
 	return phpversion();
 });
 
 
+
+/*
 function DownloadFile($file) { // $file = include path 
 	//echo "wtfff";
 	if(file_exists($file)) {
@@ -63,3 +56,4 @@ Route::get('test',function(){
 	DownloadFile("test.txt");
 	#return stream_context_get_default();
 });
+*/

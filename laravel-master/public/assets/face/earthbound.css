@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'Earthbound';
+        src: url('/public/assets/fonts/earthbound/EarthboundCondensedBold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'Earthbound';
+        src: url('/public/assets/fonts/earthbound/EarthboundCondensedBoldItalic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+      }
+
+@font-face {
+    font-family: 'Earthbound';
+        src: url('/public/assets/fonts/earthbound/EarthboundRegular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
