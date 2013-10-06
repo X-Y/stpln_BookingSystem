@@ -81,30 +81,49 @@ Route::filter('csrf', function()
 
 
 require("controllers/BookingController.php");
-Route::filter('earlyBar', function(){
-	$dt=BookingForm::calDates(Input::all());
+Route::filter('earlyBar', function($route,$request){
+	$id=$route->getParameter("v1");
+	if($id){
+		$dt=Booking::find($id);
+	}else{
+		$dt=BookingForm::calDates(Input::all());
+	}
 	$BNET=Config::get("app.BOOKING_NO_EARLIER_THAN");
 	$book_starting=(new Datetime())->add(new DateInterval("PT".$BNET."H"));
 	if($book_starting>$dt["from"] && $dt["from"]>(new Datetime()))
-		return BookingController::redirectHome("error","You can't make/edit/delete bookings happening within ".$BNET." hours.");
-	
+		return Redirect::back()->with("error","You can't make/edit/delete bookings happening within ".$BNET." hours.");	
 });
 
-Route::filter('owner',function(){
-	$id=Input::get("id");
+function queryPermission($uid,$perm){
+	$token="bla";
+	return authCall($uid,$token,$perm);
+}
+function authCall($uid,$token,$perm){
+	$curl=curl_init("http://localhost/public/test");
+	$res=curl_exec($curl);
+	exit(var_dump($res));
+	$curl_close($curl);
+}
+function noPermissionRedirect(){
+	return Redirect::back()->with("error","You don't have permission to do so");
+}
+
+Route::filter('permission',function($route,$request,$value){
 	$uid=12334;
-	$userRole="";
-	$booking=Booking::find($id);
-	if($userRole!="sueruser"){
-		if($booking->user!=$uid){
-			return "You don't have permission to do so";
-		}
+	$res=queryPermission($uid,$value);
+	if(!$res){
+		return noPermissionRedirect();
 	}
 });
-Route::filter('superuser',function(){
-	$uid=12334;
-	$userRole="";
-	if($userRole!="sueruser"){
-		return "You don't have permission to do so";
+
+Route::filter('owner',function($route,$request){
+	$id=Input::get("id");
+	if($id==null)$id=$route->getParameter("v1");
+	$uid=12335;
+	$moderator=queryPermission($uid,"moderator");
+	$booking=Booking::find($id);
+	//exit(var_dump($booking->user!=$uid));
+	if(!$moderator && $booking->user!=$uid){
+		return noPermissionRedirect();
 	}
 });

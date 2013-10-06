@@ -59,7 +59,7 @@ input[type="text"]:hover , textarea:hover{
 	margin-left:0;
 }
 .details {
-    display: none;
+    //display: none;
 	margin-bottom:10px;
 	line-height:25px;
 }

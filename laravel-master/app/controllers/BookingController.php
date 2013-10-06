@@ -5,6 +5,9 @@ class BookingController extends BaseController{
 	public function __construct(){
 		$this->beforeFilter('csrf',array('on'=>'post'));
 		$this->beforeFilter('earlyBar',array('only'=>array('postBook','postEdit','getDelete')));
+		$this->beforeFilter('permission:can_book',array('only'=>array('postBook','postEdit')));
+		$this->beforeFilter('owner',array('only'=>array('postEdit','getDelete')));
+		$this->beforeFilter('permission:moderator',array('only'=>array('getExpire','getCheckin')));
 	}
 	public function getIndex(){
 		return self::redirectHome();
@@ -68,7 +71,8 @@ class BookingController extends BaseController{
 			));
 	}
 	public function getTest(){
-		return(var_dump(new Datetime("12:98")));
+		return "hello wwwd";
+		//return(var_dump(new Datetime("12:98")));
 		//return(var_dump(Booking::getOnesBookings(12334)));
 	}
 	
