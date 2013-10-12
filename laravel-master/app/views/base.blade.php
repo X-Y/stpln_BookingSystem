@@ -28,9 +28,6 @@
 
 		<style>
 		@section('styles')
-			body {
-				padding-top: 60px;
-			}
 		@show
 		</style>
 
@@ -54,31 +51,14 @@
 
 	<body>
 		<!-- Navbar -->
-		<div class="navbar navbar-inverse navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container">
-					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</a>
-
-					<div class="nav-collapse collapse">
-						<ul class="nav">
-							<li {{{ (Request::is('/') ? 'class="active"' : '') }}}><a href="{{{ URL::to('') }}}">Home</a></li>
-						</ul>
-
-						<ul class="nav pull-right">
-							<li {{{ (Request::is('account/login') ? 'class="active"' : '') }}}><a href="{{{ URL::to('account/login') }}}">Login</a></li>
-							<li {{{ (Request::is('account/register') ? 'class="active"' : '') }}}><a href="{{{ URL::to('account/register') }}}">Register</a></li>
-						</ul>
-					</div>
-					<!-- ./ nav-collapse -->
-				</div>
-			</div>
-		</div>
+		@include('topBar')
 		<!-- ./ navbar -->
-
+		<header class="hero-unit">
+			<h1>Machine booking</h1>
+			<p>
+				Book a time on machine #1 stpln. It's currently online.
+			</p>
+		</header>
 		<!-- Container -->
 		<div class="container">
 			<!-- Notifications -->

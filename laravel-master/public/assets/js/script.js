@@ -1,5 +1,5 @@
 var BookingSystem=(function($,me){
-	var baseURL="http://localhost/public";
+	var baseURL="http://localhost/public/bookings";
 	
 	var availableURL="/available/";
 	

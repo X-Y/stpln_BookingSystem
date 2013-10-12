@@ -89,17 +89,18 @@ Route::filter('earlyBar', function($route,$request){
 		$dt=BookingForm::calDates(Input::all());
 	}
 	$BNET=Config::get("app.BOOKING_NO_EARLIER_THAN");
-	$book_starting=(new Datetime())->add(new DateInterval("PT".$BNET."H"));
+	$now=new Datetime();
+	$book_starting=$now->add(new DateInterval("PT".$BNET."H"));
 	if($book_starting>$dt["from"] && $dt["from"]>(new Datetime()))
 		return Redirect::back()->with("error","You can't make/edit/delete bookings happening within ".$BNET." hours.");	
 });
 
 function queryPermission($uid,$perm){
-	$token="bla";
+	$token="bla";	//token of this app
 	return authCall($uid,$token,$perm);
 }
 function authCall($uid,$token,$perm){
-	$curl=curl_init("http://localhost/public/test");
+	$curl=curl_init("http://localhost/public/bookings/test");
 	$res=curl_exec($curl);
 	exit(var_dump($res));
 	$curl_close($curl);

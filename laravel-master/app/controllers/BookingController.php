@@ -1,5 +1,5 @@
 <?php
-require "bookingCheck.php";
+require "BookingCheck.php";
 
 class BookingController extends BaseController{
 	public function __construct(){
@@ -81,7 +81,7 @@ class BookingController extends BaseController{
 	}
 	
 	public static function redirectHome($msgType="",$msgContent=""){
-		return Redirect::to("book")->with($msgType,$msgContent);
+		return Redirect::to("bookings/book")->with($msgType,$msgContent);
 	}
 }
 
@@ -110,7 +110,7 @@ class BookingForm{
 		if(!BookingCheck::isBookingAllowed($dts["from"],$dts["to"],$id))return array(0=>-1,1=>Null);
 		
 		$booking["title"]=$data["title"];
-		$booking["user"]=12334;
+		$booking["user"]=Auth::user();
 		$booking["from"]=$dts["from"];
 		$booking["to"]=$dts["to"];	
 		$booking["note"]=$data["note"];
@@ -126,10 +126,10 @@ class BookingForm{
 		$date_from->setTime($time_from[0],$time_from[1]);
 		$date_to->setTime($time_to[0],$time_to[1]);
 
-		return [
+		return array(
 				"from"	=>	min($date_from,$date_to),
 				"to"	=>	max($date_from,$date_to)
-				];
+				);
 	}
 }
 

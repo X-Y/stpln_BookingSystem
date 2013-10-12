@@ -48,19 +48,19 @@ class BookingCheck{
 	*/
 	public static function inquireAvailablePeriods($from,$to,$id=Null){
 		if(!self::isBasicCheckPassed($from,$to)){
-			return [];
+			return array();
 		}
 		$raw=self::fetchRawPeriods($from,$to,$id);
 		$p_Allowed=$raw["periods_allowed"];
 		$p_Disallowed=$raw["periods_disallowed"];
 		
 		//Just need to care about periods between $from and $to
-		$p_toDivide=[
-			[
+		$p_toDivide=array(
+			array(
 			"from"=>$from,
 			"to"=>$to
-			]
-		];
+			)
+		);
 		
 		//Get allowed periods first
 		$res_all_allowed=self::trimAvailablePeriods($from,$to,$p_Allowed);
@@ -80,8 +80,8 @@ class BookingCheck{
 	*
 	*/
 	public static function fetchRawPeriods($from,$to,$id=Null){
-		$arr_allowed=[];
-		$arr_disallowed=[];
+		$arr_allowed=array();
+		$arr_disallowed=array();
 		
 		//Rule periods
 		$rules=BookingRule::active()->get();
@@ -104,7 +104,7 @@ class BookingCheck{
 		$bookings=$bookings->where("from",">=",$from)->where("from","<=",$to)->get();
 		if(!empty($bookings)){
 			foreach($bookings as $booking){
-				array_push($arr_disallowed,["from"=>$booking["from"],"to"=>$booking["to"]]);
+				array_push($arr_disallowed,array("from"=>$booking["from"],"to"=>$booking["to"]));
 			}
 		}
 		
@@ -115,10 +115,10 @@ class BookingCheck{
 		usort($arr_allowed,"cmp");
 		usort($arr_disallowed,"cmp");
 
-		return [
+		return array(
 			"periods_allowed"=>$arr_allowed,
 			"periods_disallowed"=>$arr_disallowed
-			];
+			);
 	}	
 	
 	
@@ -254,7 +254,7 @@ class BookingCheck{
 					
 		//get the from and to rule time
 		$func=self::$ruleSets[$rule["frequency"]];
-		$initial=call_user_func_array(array("BookingCheck",$func),[$from,$to,$fromInte,$toInte]);
+		$initial=call_user_func_array(array("BookingCheck",$func),array($from,$to,$fromInte,$toInte));
 		
 		return self::periodsIntevToDT($initial,$fromInte,$toInte);
 	}
@@ -278,7 +278,8 @@ class BookingCheck{
 	}
 	private static function checkWeeklyRule($from,$to,$fromInte,$toInte){
 		$temp=strtotime("last Monday",$from->getTimestamp());
-		$beginOftheWeek=(new DateTime())->setTimeStamp($temp);
+		$now=new DateTime();
+		$beginOftheWeek=$now->setTimeStamp($temp);
 		return $beginOftheWeek;
 	}
 	private static function checkMonthlyRule($from,$to,$fromInte,$toInte){
@@ -309,10 +310,10 @@ class BookingCheck{
 		if($to_rule_date->m>0)$to_rule_date->m--;
 		$to_rule->add($to_rule_date);
 		
-		return [
+		return array(
 			"from"=>$from_rule,
 			"to"=>$to_rule
-			];
+			);
 	}
 	
 	
@@ -348,7 +349,7 @@ class BookingCheck{
 	*/
 	private static function makeDividedPeriods($toProcess,$divider){
 		//exit(var_dump($divider));
-		$result=[];
+		$result=array();
 		foreach($toProcess as $p){
 			foreach($divider as $d){
 				$res=self::divideTime($p,$d);
@@ -370,8 +371,8 @@ class BookingCheck{
 	*
 	*/
 	private static function divideTime($c0,$c1){
-		$r0=[];
-		$r1=[];
+		$r0=array();
+		$r1=array();
 		if($c1["from"]<=$c0["from"]){	//no periods before c1
 			$r0=Null;
 		}else{
@@ -384,6 +385,6 @@ class BookingCheck{
 			$r1["from"]=max($c1["to"],$c0["from"]);
 			$r1["to"]=$c0["to"];
 		}
-		return [$r0,$r1];
+		return array($r0,$r1);
 	}
 }

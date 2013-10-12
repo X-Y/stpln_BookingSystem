@@ -113,6 +113,10 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+		
+		//3rd party
+		
+		'Zizaco\Confide\ConfideServiceProvider',
 
 	),
 
@@ -178,6 +182,10 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+		
+		
+		//3rd Party
+		'Confide'		  => 'Zizaco\Confide\ConfideFacade',
 
 	),
 	

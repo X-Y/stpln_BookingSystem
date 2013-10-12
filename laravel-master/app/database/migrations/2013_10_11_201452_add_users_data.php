@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class AddSoftDeleting extends Migration {
+class AddUsersData extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -13,9 +13,9 @@ class AddSoftDeleting extends Migration {
 	{
 		//
 		Schema::table('users',function($table){
-			$table->softDeletes();
+			$table->integer('credits');
+			$table->string('phone number');
 		});
-		
 	}
 
 	/**
@@ -26,6 +26,10 @@ class AddSoftDeleting extends Migration {
 	public function down()
 	{
 		//
+		Schema::table('users',function($table){
+			$table->dropColumn('credits');
+			$table->dropColumn('phone');
+		});
 	}
 
 }

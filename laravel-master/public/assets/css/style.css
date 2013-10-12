@@ -1,3 +1,11 @@
+body{
+	padding-top:40px;
+}
+header.hero-unit{
+	background-color:#2C5853;
+	color:white;
+	border-radius:0;
+}
 .form-field {
     clear: both;
 }
@@ -22,19 +30,19 @@
 }
 
 
-input[type="text"] , textarea{
+input[type="text"], input[type="password"], textarea{
     background-color: inherit;
     box-shadow: 0 0 0;
 	width:200px;
 }
-input[type="text"]{
+input[type="text"], input[type="password"]{
     border-radius: 0;
     border: 0;
     border-bottom: 1px solid #cccccc;
 }
-input[type="text"]:focus , textarea:focus{
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus{
 }
-input[type="text"]:hover , textarea:hover{
+input[type="text"]:hover, input[type="password"]:focus, textarea:hover{
 	border-color:#999999;
 }
 
@@ -70,10 +78,10 @@ input[type="text"]:hover , textarea:hover{
     padding: 0 10px;
     /* background-color: white; */
 }
-.booking:hover{
+/*.booking:hover{
 	background-color:#F47920;
 	color:white;
-}
+}*/
 .booking h3{
 	font-size:17px;
     line-height: 35px;
