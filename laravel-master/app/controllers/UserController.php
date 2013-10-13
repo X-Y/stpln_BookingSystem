@@ -30,6 +30,7 @@ class UserController extends BaseController {
 
         $user->username = Input::get( 'username' );
         $user->email = Input::get( 'email' );
+        $user["phone number"] = Input::get( 'phone' );
         $user->password = Input::get( 'password' );
 
         // The password confirmation will be removed from model
@@ -53,7 +54,7 @@ class UserController extends BaseController {
 
                         return Redirect::action('UserController@create')
                             ->withInput(Input::except('password'))
-                ->with( 'error', $error );
+                ->with( 'form_error', $error );
         }
     }
 
@@ -124,7 +125,7 @@ class UserController extends BaseController {
 
                         return Redirect::action('UserController@login')
                             ->withInput(Input::except('password'))
-                ->with( 'error', $err_msg );
+                ->with( 'form_error', $err_msg );
         }
     }
 
@@ -145,7 +146,7 @@ class UserController extends BaseController {
         {
             $error_msg = Lang::get('confide::confide.alerts.wrong_confirmation');
                         return Redirect::action('UserController@login')
-                            ->with( 'error', $error_msg );
+                            ->with( 'form_error', $error_msg );
         }
     }
 
@@ -175,7 +176,7 @@ class UserController extends BaseController {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_forgot');
                         return Redirect::action('UserController@forgot_password')
                             ->withInput()
-                ->with( 'error', $error_msg );
+                ->with( 'form_error', $error_msg );
         }
     }
 
@@ -213,7 +214,7 @@ class UserController extends BaseController {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_reset');
                         return Redirect::action('UserController@reset_password', array('token'=>$input['token']))
                             ->withInput()
-                ->with( 'error', $error_msg );
+                ->with( 'form_error', $error_msg );
         }
     }
 

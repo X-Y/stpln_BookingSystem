@@ -4,23 +4,23 @@ require "BookingCheck.php";
 class BookingController extends BaseController{
 	public function __construct(){
 		$this->beforeFilter('csrf',array('on'=>'post'));
-		$this->beforeFilter('earlyBar',array('only'=>array('postBook','postEdit','getDelete')));
+		//$this->beforeFilter('earlyBar',array('only'=>array('postBook','getEdit','postEdit','getDelete')));
 		$this->beforeFilter('permission:can_book',array('only'=>array('postBook','postEdit')));
-		$this->beforeFilter('owner',array('only'=>array('postEdit','getDelete')));
+		$this->beforeFilter('owner',array('only'=>array('getEdit','postEdit','getDelete')));
 		$this->beforeFilter('permission:moderator',array('only'=>array('getExpire','getCheckin')));
 	}
 	public function getIndex(){
 		return self::redirectHome();
 	}
 	public function getBook(){
-		return View::make("index");
+		return View::make("booking/index");
 	}
 	public function postBook(){
 		return self::postEdit(Null);
 	}
 	public function getEdit($id){
 		$form=BookingForm::fillForm($id);
-		return View::make("index",array("booking"=>$form));
+		return View::make("booking/index",array("booking"=>$form));
 	}
 	public function postEdit($id){
 		$res=self::makeBooking($id);
@@ -30,10 +30,10 @@ class BookingController extends BaseController{
 		if($succ>0){
 			return self::redirectHome("success","Your booking has been confirmed");
 		}else if($succ==0){
-			return View::make("index",array("booking"=>$_POST, "errors"=>$booking->errors()));
+			return View::make("booking/index",array("booking"=>$_POST, "errors"=>$booking->errors()));
 		}else if($succ==-1){
 			Session::flash("error","The desired time is not available");
-			return View::make("index",array("booking"=>$_POST));
+			return View::make("booking/index",array("booking"=>$_POST));
 		}
 	}
 	public function getExpire($id){
@@ -71,7 +71,7 @@ class BookingController extends BaseController{
 			));
 	}
 	public function getTest(){
-		return "hello wwwd";
+		return "hello ed";
 		//return(var_dump(new Datetime("12:98")));
 		//return(var_dump(Booking::getOnesBookings(12334)));
 	}
@@ -82,6 +82,10 @@ class BookingController extends BaseController{
 	
 	public static function redirectHome($msgType="",$msgContent=""){
 		return Redirect::to("bookings/book")->with($msgType,$msgContent);
+	}
+	
+	public static function test(){
+		return "heeee";
 	}
 }
 
@@ -110,7 +114,7 @@ class BookingForm{
 		if(!BookingCheck::isBookingAllowed($dts["from"],$dts["to"],$id))return array(0=>-1,1=>Null);
 		
 		$booking["title"]=$data["title"];
-		$booking["user"]=Auth::user();
+		$booking["user"]=Auth::user()->id;
 		$booking["from"]=$dts["from"];
 		$booking["to"]=$dts["to"];	
 		$booking["note"]=$data["note"];

@@ -56,11 +56,11 @@
 		<header class="hero-unit">
 			<h1>Machine booking</h1>
 			<p>
-				Book a time on machine #1 stpln. It's currently online.
+				Book a time on {{Config::get('app.machineName')}}, {{Config::get('app.organization')}}. It's currently online.
 			</p>
 		</header>
 		<!-- Container -->
-		<div class="container">
+		<div class="container main">
 			<!-- Notifications -->
 			@include('notifications')
 			<!-- ./ notifications -->
@@ -75,9 +75,12 @@
 		================================================== -->
 		<script src="{{{ asset('assets/js/jquery.v1.8.3.min.js') }}}"></script>
 		<script src="{{{ asset('assets/js/bootstrap/bootstrap.min.js') }}}"></script>
+		<script src="{{{ asset('assets/js/bootstrap/transition.js') }}}"></script>
+		<script src="{{{ asset('assets/js/bootstrap/collapse.js') }}}"></script>
+		
 		<script src="{{{ asset('assets/js/jquery-ui-1.10.3.custom.min.js') }}}"></script>
 		<script src="{{{ asset('assets/js/jquery-ui-timepicker-addon.js') }}}"></script>
-
+		
 		@section("js")
 		<script type="text/javascript" src="{{{ asset('assets/js/script.js') }}}"></script>
 		@show

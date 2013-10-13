@@ -1,6 +1,10 @@
 <?php
 
 return array(
+	
+	'organization' => 'stpln',
+	
+	'machineName' => 'laser cutter #1',
 
 	/*
 	|--------------------------------------------------------------------------

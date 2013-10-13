@@ -80,7 +80,6 @@ Route::filter('csrf', function()
 });
 
 
-require("controllers/BookingController.php");
 Route::filter('earlyBar', function($route,$request){
 	$id=$route->getParameter("v1");
 	if($id){
@@ -91,40 +90,36 @@ Route::filter('earlyBar', function($route,$request){
 	$BNET=Config::get("app.BOOKING_NO_EARLIER_THAN");
 	$now=new Datetime();
 	$book_starting=$now->add(new DateInterval("PT".$BNET."H"));
-	if($book_starting>$dt["from"] && $dt["from"]>(new Datetime()))
+	if($book_starting>$dt["from"])
 		return Redirect::back()->with("error","You can't make/edit/delete bookings happening within ".$BNET." hours.");	
 });
 
-function queryPermission($uid,$perm){
-	$token="bla";	//token of this app
-	return authCall($uid,$token,$perm);
-}
-function authCall($uid,$token,$perm){
-	$curl=curl_init("http://localhost/public/bookings/test");
-	$res=curl_exec($curl);
-	exit(var_dump($res));
-	$curl_close($curl);
-}
-function noPermissionRedirect(){
-	return Redirect::back()->with("error","You don't have permission to do so");
-}
-
 Route::filter('permission',function($route,$request,$value){
-	$uid=12334;
-	$res=queryPermission($uid,$value);
-	if(!$res){
-		return noPermissionRedirect();
+	if(!Auth::check()){
+		return Helper::needsLoginRedirect();
 	}
+	
+	$uid=Auth::user()->id;
+	$res=Helper::queryPermission($uid,$value);
+	if(!$res){
+		return Helper::noPermissionRedirect();
+	}
+
 });
 
 Route::filter('owner',function($route,$request){
-	$id=Input::get("id");
-	if($id==null)$id=$route->getParameter("v1");
-	$uid=12335;
-	$moderator=queryPermission($uid,"moderator");
-	$booking=Booking::find($id);
-	//exit(var_dump($booking->user!=$uid));
-	if(!$moderator && $booking->user!=$uid){
-		return noPermissionRedirect();
+	if(!Auth::check()){
+		return Helper::needsLoginRedirect();	
 	}
+	$id=Input::get("id");
+	if($id==null)$id=$route->getParameter("v1");	
+	
+	$uid=Auth::user()->id;	//uid of the user. Should be implemented differently.
+	$moderator=Helper::queryPermission($uid,"moderator");
+	$booking=Booking::find($id);
+	if(!$moderator && $booking->user!=$uid){
+		return Helper::noPermissionRedirect();
+	}
+	
+	
 });

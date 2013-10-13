@@ -16,7 +16,7 @@ Route::get("",function(){
 	});
 
 Route::controller("bookings","BookingController");
-View::composer("userbookings","BookingComposer");
+View::composer("booking/userbookings","BookingComposer");
 
 //Route::resource("foo","fooController");
 
