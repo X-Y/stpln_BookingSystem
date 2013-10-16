@@ -94,16 +94,18 @@ class UserController extends BaseController {
         // logAttempt will check if the 'email' perhaps is the username.
         if ( Confide::logAttempt( $input ) ) 
         {
+			//$cookie=Cookie::forever("fabrica_sso_authorised",Auth::user()->id,null,null,true,false);
+			$cookie=Cookie::forever("fabrica_sso_authorised",Auth::user()->id,null,null,false,false);
             // If the session 'loginRedirect' is set, then redirect
             // to that route. Otherwise redirect to '/'
             $r = Session::get('loginRedirect');
             if (!empty($r))
             {
                 Session::forget('loginRedirect');
-                return Redirect::to($r);
+                return Redirect::to($r)->withCookie($cookie);
             }
             
-            return Redirect::to('/'); // change it to '/admin', '/dashboard' or something
+            return Redirect::to('/')->withCookie($cookie); // change it to '/admin', '/dashboard' or something
         }
         else
         {
@@ -225,8 +227,9 @@ class UserController extends BaseController {
     public function logout()
     {
         Confide::logout();
-        
-        return Redirect::to('/');
+        $cookie=Cookie::forget("fabrica_sso_authorised");
+		
+        return Redirect::to('/')->withCookie($cookie);
     }
 
 }

@@ -64,7 +64,7 @@ input[type="text"]:hover, input[type="password"]:focus, textarea:hover{
 	border-color:#999999;
 }
 
-.booking-form .form-field span {
+.booking-form .form-field label>span {
 	padding-right: 10px;
 	width: 40px;
 	display: inline-block;

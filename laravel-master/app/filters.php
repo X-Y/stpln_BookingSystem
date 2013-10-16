@@ -14,6 +14,8 @@
 App::before(function($request)
 {
 	//
+	//exit(var_dump(cookieAuth()));
+	cookieAuth();
 });
 
 
@@ -21,7 +23,13 @@ App::after(function($request, $response)
 {
 	//
 });
-
+function cookieAuth(){
+	$uid=Cookie::get("fabrica_sso_authorised");
+	if($uid)
+		Auth::loginUsingId($uid);
+	else
+		Auth::logout();
+}
 /*
 |--------------------------------------------------------------------------
 | Authentication Filters
@@ -42,6 +50,11 @@ Route::filter('auth', function()
 Route::filter('auth.basic', function()
 {
 	return Auth::basic();
+});
+
+Route::filter("cookieAuth", function(){
+	exit("Tonny!");
+
 });
 
 /*

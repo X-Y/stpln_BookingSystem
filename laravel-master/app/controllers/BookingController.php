@@ -65,13 +65,14 @@ class BookingController extends BaseController{
 		$date=new Datetime($date);
 		$next_day=clone $date;
 		$next_day=$next_day->add(new DateInterval("P1D"));
-		return View::make("available",array(
+		return View::make("booking/available",array(
 			"periods"=>BookingCheck::inquireAvailablePeriods($date,$next_day),
 			"date"=>$date
 			));
 	}
 	public function getTest(){
-		return "hello ed";
+		$testcookie=Cookie::make("test","hello Jimmy!",5);
+		return Response::make()->withCookie($testcookie);
 		//return(var_dump(new Datetime("12:98")));
 		//return(var_dump(Booking::getOnesBookings(12334)));
 	}
