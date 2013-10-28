@@ -22,14 +22,14 @@
 				<div class="note">{{$one->note}}</div>
 				@if($one->status==1)
 				<div class="controls">
-					<a href="/public/bookings/edit/{{$one->id}}" class="edit">edit</a>
+					<a href="{{URL::action('BookingController@getEdit',$one->id)}}" class="edit">edit</a>
 					|
-					<a href="/public/bookings/delete/{{$one->id}}" class="cancel">cancel</a>
+					<a href="{{URL::action('BookingController@getDelete',$one->id)}}" class="cancel">cancel</a>
 					@if(Helper::queryPermission(Auth::user()->id,"moderator"))
 					|
-					<a href="/public/bookings/checkin/{{$one->id}}" class="check-in">check in</a>
+					<a href="{{URL::action('BookingController@getCheckin',$one->id)}}" class="check-in">check in</a>
 					|
-					<a href="/public/bookings/expire/{{$one->id}}" class="expire">expire</a>
+					<a href="{{URL::action('BookingController@getExpire',$one->id)}}" class="expire">expire</a>
 					@endif
 
 				</div>

@@ -83,6 +83,13 @@
 		
 		@section("js")
 		<script type="text/javascript" src="{{{ asset('assets/js/script.js') }}}"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				BookingSystem.init({
+					baseURL:"{{URL::action('BookingController@getIndex')}}",
+					});
+			});
+		</script>
 		@show
 	</body>
 </html>

@@ -23,6 +23,12 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
 
 	protected $softDelete = true;
 	
+	public static $rules = array(
+		'username' => 'unique:users,username',
+		'email' => 'email'
+	);
+
+	
 	/**
 	 * Get the unique identifier for the user.
 	 *
@@ -51,6 +57,10 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
 	public function getReminderEmail()
 	{
 		return $this->email;
+	}
+	
+	public function bookings(){
+		return $this->hasMany("Booking","user");
 	}
 
 }

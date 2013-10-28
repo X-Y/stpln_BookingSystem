@@ -154,11 +154,14 @@ Equal height fix for the columns
 	text-decoration:none;
 	display:block;
 }
-.title.completed a{
+.completed{
 	color:#999;
 }
-.title.expired a{
+.expired{
 	color:#966;
+}
+.deleted{
+	color:#cbc;
 }
 
 .tr{
@@ -184,4 +187,23 @@ input#email{
 
 form.register input{
 	display:block;
+}
+
+
+
+/*
+*
+*
+*			Management	
+*
+*
+*/
+table form{
+	margin:0;
+}
+form input.small-number{
+	width:50px;
+}
+td{
+	padding:0 10px;
 }

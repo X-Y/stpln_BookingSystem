@@ -1,11 +1,15 @@
 var BookingSystem=(function($,me){
-	var baseURL="/laravel-master/public/bookings";
+
+	var config={
+		baseURL:"/laravel-master/public/bookings",
+		availableURL:"/available/"
+	};
 	
-	var availableURL="/available/";
-	
-	function init(){
+	function init(config){
+		$.extend(config,this.config);
 		initTimeAvailable();
 		initWidgets();
+		initQuickEdit();
 	};
 	me.init=init;
 	
@@ -17,6 +21,7 @@ var BookingSystem=(function($,me){
 			stepMinute: 15,
 		});
 	}
+	
 	function initTimeAvailable(){
 		
 		$("#bookingForm-date").on("change", function(){
@@ -28,15 +33,30 @@ var BookingSystem=(function($,me){
 	};
 	function requestTimeAvailable(date){
 		$.ajax({
-			url:baseURL+availableURL+date,
+			url:config.baseURL+config.availableURL+date,
 			
 		}).done(function(data){
 			$("#time-available").html(data);
 		});
 	};
+	
+	function initQuickEdit(){
+		$(".quick-edit").on("focus",function(){
+			var me=$(this);
+			me.data("oldVal",me.val());
+		});
+		$(".quick-edit").on("blur",function(){
+			var me=$(this);
+			var myForm=me.parents("form");
+			if(me.val()!=me.data("oldVal")){
+				$.ajax({
+					type:"POST",
+					url:myForm.attr("action"),
+					data:myForm.serialize(),
+				});
+			}
+		});
+	}
 	return me;
 }(jQuery, BookingSystem || {}));
 
-$(document).ready(function(){
-	BookingSystem.init();
-});

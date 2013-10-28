@@ -10,7 +10,10 @@
 */
 
 class UserController extends BaseController {
-
+	public function __construct()
+	{
+		$this->beforeFilter("permission:moderator",array('only'=>array("update")));
+	}
     /**
      * Displays the form for account creation
      *
@@ -57,6 +60,15 @@ class UserController extends BaseController {
                 ->with( 'form_error', $error );
         }
     }
+	
+	public function update($id,$field){
+		$value=Input::get($field);
+		$user=User::find($id);
+		$user->$field=$value;
+		$res=$user->updateUniques();
+		return $value;
+		//return var_dump($error);
+	}
 
     /**
      * Displays the login form
